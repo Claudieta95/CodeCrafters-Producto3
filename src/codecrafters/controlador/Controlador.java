@@ -13,8 +13,18 @@ public class Controlador {
 
     private Datos datos;
 
+    private ClienteController clienteController;
+    private HotelController hotelController;
+    private HabitacionController habitacionController;
+    private ReservaController reservaController;
+
     public Controlador() {
         this.datos = new Datos();
+
+        this.clienteController = new ClienteController(datos);
+        this.hotelController = new HotelController(datos);
+        this.habitacionController = new HabitacionController(datos);
+        this.reservaController = new ReservaController(datos);
     }
 
     // Obtener los datos de la aplicación
@@ -24,66 +34,66 @@ public class Controlador {
 
     // Gestión de clientes
     public void agregarCliente(Cliente cliente) {
-        datos.agregarCliente(cliente);
+        clienteController.agregarCliente(cliente);
     }
 
     public List<Cliente> listarClientes() {
-        return datos.listarClientes();
-    }
+        return clienteController.listarClientes();
+    }    
 
     public List<Cliente> buscarClientes(String texto) {
-        return datos.buscarClientes(texto);
+        return clienteController.buscarClientes(texto);
     }
 
     // Gestión de hoteles
     public void agregarHotel(Hotel hotel) {
-        datos.agregarHotel(hotel);
+        hotelController.agregarHotel(hotel);
     }
 
     public List<Hotel> listarHoteles() {
-        return datos.listarHoteles();
+        return hotelController.listarHoteles();
     }
 
     public List<Hotel> buscarHotelesPorCiudad(String ciudad) {
-        return datos.buscarHotelesPorCiudad(ciudad);
+        return hotelController.buscarHotelesPorCiudad(ciudad);
     }
 
     // Gestión de habitaciones
     public List<Habitacion> listarHabitacionesPorHotel(Hotel hotel) {
-        return datos.listarHabitacionesPorHotel(hotel);
+        return habitacionController.listarHabitacionesPorHotel(hotel);
     }
 
     public List<Habitacion> filtrarHabitacionesPorCapacidad(
             Hotel hotel, int numeroPersonas) {
-        return datos.filtrarHabitacionesPorCapacidad(hotel, numeroPersonas);
+        return habitacionController.filtrarHabitacionesPorCapacidad(hotel, numeroPersonas);
     }
 
     public List<Habitacion> buscarHabitacionesDisponibles(
             Hotel hotel, LocalDate fechaEntrada, LocalDate fechaSalida,
             int numeroPersonas) {
 
-        return datos.buscarHabitacionesDisponibles(
+        return habitacionController.buscarHabitacionesDisponibles(
                 hotel, fechaEntrada, fechaSalida, numeroPersonas);
     }
 
     // Gestión de reservas
     public void agregarReserva(Reserva reserva) {
-        datos.agregarReserva(reserva);
+        reservaController.agregarReserva(reserva);
     }
 
     public List<Reserva> listarReservas() {
-        return datos.listarReservas();
+        return reservaController.listarReservas();
     }
 
     public List<Reserva> buscarReservasPorCliente(Cliente cliente) {
-        return datos.buscarReservasPorCliente(cliente);
+        return reservaController.buscarReservasPorCliente(cliente);
     }
 
     public List<Reserva> buscarReservasPorHotel(Hotel hotel) {
-        return datos.buscarReservasPorHotel(hotel);
+        return reservaController.buscarReservasPorHotel(hotel);
     }
 
     public boolean cancelarReserva(int idReserva) {
-        return datos.cancelarReserva(idReserva);
+        return reservaController.cancelarReserva(idReserva);
     }
 }

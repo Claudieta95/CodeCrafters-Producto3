@@ -20,19 +20,7 @@ public class GestionHotel {
             int opcion;
 
             do {
-                System.out.println("\n--- GESTIÓN DE HOTEL ---");
-                System.out.println("1. Registrar nuevo cliente");
-                System.out.println("2. Listar clientes");
-                System.out.println("3. Buscar cliente por nombre o apellido");
-                System.out.println("4. Listar hoteles");
-                System.out.println("5. Buscar hoteles por ciudad");
-                System.out.println("6. Listar habitaciones de un hotel");
-                System.out.println("7. Filtrar habitaciones por número de personas");
-                System.out.println("8. Reservar habitación");
-                System.out.println("9. Listar reservas");
-                System.out.println("10. Cancelar reserva");
-                System.out.println("11. Salir");
-                System.out.print("Elige una opción: ");
+                MenuView.mostrarMenu();
 
                 if (!scanner.hasNextInt()) {
                     System.out.println("Introduce un número válido.");
@@ -43,63 +31,14 @@ public class GestionHotel {
 
                 opcion = scanner.nextInt();
                 scanner.nextLine();
-
+                
                 switch (opcion) {
 
-                    case 1 -> {
-                        int id = controlador.listarClientes().stream()
-                                .mapToInt(Cliente::getIdPersona)
-                                .max().orElse(0) + 1;
+                    case 1 -> ClienteView.registrarCliente(scanner, controlador);
 
-                        System.out.print("Nombre: ");
-                        String nombre = scanner.nextLine();
+                    case 2 -> ClienteView.listarClientes(controlador);
 
-                        System.out.print("Apellido: ");
-                        String apellido = scanner.nextLine();
-
-                        System.out.print("DNI: ");
-                        String dni = scanner.nextLine();
-
-                        System.out.print("Email: ");
-                        String email = scanner.nextLine();
-
-                        System.out.print("Teléfono: ");
-                        String telefono = scanner.nextLine();
-
-                        Cliente cliente = new Cliente(
-                                id, nombre, apellido, dni, email, telefono);
-
-                        controlador.agregarCliente(cliente);
-                        System.out.println("Cliente registrado correctamente.");
-                    }
-
-                    case 2 -> {
-                        List<Cliente> clientes = controlador.listarClientes();
-
-                        if (clientes.isEmpty()) {
-                            System.out.println("No hay clientes registrados.");
-                        } else {
-                            for (Cliente cliente : clientes) {
-                                System.out.println(cliente);
-                            }
-                        }
-                    }
-
-                    case 3 -> {
-                        System.out.print("Nombre o apellido: ");
-                        String texto = scanner.nextLine();
-
-                        List<Cliente> clientes =
-                                controlador.buscarClientes(texto);
-
-                        if (clientes.isEmpty()) {
-                            System.out.println("No se encontraron clientes.");
-                        } else {
-                            for (Cliente cliente : clientes) {
-                                System.out.println(cliente);
-                            }
-                        }
-                    }
+                    case 3 -> ClienteView.buscarClientes(scanner, controlador);
 
                     case 4 -> {
                         List<Hotel> hoteles = controlador.listarHoteles();

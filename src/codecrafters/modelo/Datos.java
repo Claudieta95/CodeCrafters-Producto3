@@ -118,6 +118,34 @@ public class Datos {
         return resultados;
     }
 
+    public boolean estaHabitacionDisponible(
+        Habitacion habitacion, LocalDate fechaEntrada, LocalDate fechaSalida) {
+
+    if (habitacion == null || fechaEntrada == null || fechaSalida == null
+            || !fechaEntrada.isBefore(fechaSalida)) {
+        return false;
+    }
+
+    for (Reserva reserva : reservas) {
+        if ("Cancelada".equalsIgnoreCase(reserva.getEstado())) {
+            continue;
+        }
+
+        boolean seSolapan = fechaEntrada.isBefore(reserva.getFechaSalida())
+                && fechaSalida.isAfter(reserva.getFechaEntrada());
+
+        if (seSolapan) {
+            for (LineaReserva linea : reserva.getLineasReserva()) {
+                if (linea.getHabitacion() == habitacion) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
     public List<Habitacion> buscarHabitacionesDisponibles(
             Hotel hotel, LocalDate fechaEntrada, LocalDate fechaSalida, int numeroPersonas) {
 
@@ -131,7 +159,7 @@ public class Datos {
 
         for (Habitacion habitacion : hotel.getHabitaciones()) {
             if (habitacion.getCapacidad() >= numeroPersonas
-                    && habitacion.estaDisponible(fechaEntrada, fechaSalida)) {
+                    && estaHabitacionDisponible(habitacion, fechaEntrada, fechaSalida)) {
                 resultados.add(habitacion);
             }
         }
@@ -147,6 +175,17 @@ public class Datos {
             throw new IllegalArgumentException(
                     "La reserva debe tener al menos una habitación.");
         }
+
+        for (LineaReserva linea : reserva.getLineasReserva()) {
+            if (!estaHabitacionDisponible(
+                    linea.getHabitacion(), 
+                    reserva.getFechaEntrada(), 
+                    reserva.getFechaSalida())) {
+                throw new IllegalArgumentException(
+                        "La habitación " + linea.getHabitacion().getNumero() + " no está disponible en las fechas seleccionadas.");
+            }
+        }    
+
 
         if (!reservas.contains(reserva)) {
             reservas.add(reserva);
@@ -174,7 +213,8 @@ public class Datos {
 
         for (Reserva reserva : reservas) {
             for (LineaReserva linea : reserva.getLineasReserva()) {
-                if (linea.getHabitacion().getHotel() == hotel) {
+                if (hotel != null && hotel.getHabitaciones() != null
+                        && hotel.getHabitaciones().contains(linea.getHabitacion())) {
                     resultados.add(reserva);
                     break;
                 }

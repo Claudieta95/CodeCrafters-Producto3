@@ -40,33 +40,9 @@ public class GestionHotel {
 
                     case 3 -> ClienteView.buscarClientes(scanner, controlador);
 
-                    case 4 -> {
-                        List<Hotel> hoteles = controlador.listarHoteles();
+                    case 4 -> HotelView.listarHoteles(controlador);
 
-                        if (hoteles.isEmpty()) {
-                            System.out.println("No hay hoteles registrados.");
-                        } else {
-                            for (Hotel hotel : hoteles) {
-                                System.out.println(hotel);
-                            }
-                        }
-                    }
-
-                    case 5 -> {
-                        System.out.print("Ciudad: ");
-                        String ciudad = scanner.nextLine();
-
-                        List<Hotel> hoteles =
-                                controlador.buscarHotelesPorCiudad(ciudad);
-
-                        if (hoteles.isEmpty()) {
-                            System.out.println("No se encontraron hoteles.");
-                        } else {
-                            for (Hotel hotel : hoteles) {
-                                System.out.println(hotel);
-                            }
-                        }
-                    }
+                    case 5 -> HotelView.buscarHotelesPorCiudad(scanner, controlador);
 
                     case 6 -> {
                         Hotel hotel = seleccionarHotel(scanner, controlador);

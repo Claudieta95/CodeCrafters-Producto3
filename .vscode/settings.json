@@ -6,6 +6,7 @@
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "c:\\Users\\maldo\\Desktop\\fp\\POO datos\\CodeCrafters-Producto3\\lib\\mysql-connector-j-26.10.0.jar",
+        "c:\\Users\\maldo\\Desktop\\fp\\POO datos\\CodeCrafters-Producto3\\lib\\junit-platform-console-standalone-6.1.3.jar"
     ]
 }

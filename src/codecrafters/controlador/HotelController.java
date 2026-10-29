@@ -1,26 +1,24 @@
 package codecrafters.controlador;
 
-import codecrafters.modelo.Datos;
+import codecrafters.dao.DAOFactory;
+import codecrafters.dao.HotelDAO;
 import codecrafters.modelo.Hotel;
+
 import java.util.List;
 
 public class HotelController {
 
-    private Datos datos;
+    private final HotelDAO hotelDAO;
 
-    public HotelController(Datos datos) {
-        this.datos = datos;
-    }
-
-    public void agregarHotel(Hotel hotel) {
-        datos.agregarHotel(hotel);
+    public HotelController() {
+        this.hotelDAO = DAOFactory.crearHotelDAO();
     }
 
     public List<Hotel> listarHoteles() {
-        return datos.listarHoteles();
+        return hotelDAO.listarHoteles();
     }
 
     public List<Hotel> buscarHotelesPorCiudad(String ciudad) {
-        return datos.buscarHotelesPorCiudad(ciudad);
+        return hotelDAO.listarHotelesPorCiudad(ciudad);
     }
 }

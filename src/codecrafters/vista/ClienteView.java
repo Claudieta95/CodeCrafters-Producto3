@@ -2,15 +2,14 @@ package codecrafters.vista;
 
 import codecrafters.controlador.Controlador;
 import codecrafters.modelo.Cliente;
+
 import java.util.List;
 import java.util.Scanner;
 
 public class ClienteView {
 
-    public static void registrarCliente(Scanner scanner, Controlador controlador) {
-        int id = controlador.listarClientes().stream()
-                .mapToInt(Cliente::getIdPersona)
-                .max().orElse(0) + 1;
+    public static void registrarCliente(
+            Scanner scanner, Controlador controlador) {
 
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
@@ -27,14 +26,25 @@ public class ClienteView {
         System.out.print("Teléfono: ");
         String telefono = scanner.nextLine();
 
+        // MySQL generará el ID automáticamente.
         Cliente cliente = new Cliente(
-                id, nombre, apellido, dni, email, telefono);
+                0, nombre, apellido, dni, email, telefono);
 
-        controlador.agregarCliente(cliente);
-        System.out.println("Cliente registrado correctamente.");
+        try {
+            controlador.agregarCliente(cliente);
+
+            System.out.println(
+                    "Cliente registrado correctamente. ID: "
+                    + cliente.getIdPersona());
+
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println(
+                    "No se pudo registrar el cliente: " + e.getMessage());
+        }
     }
 
     public static void listarClientes(Controlador controlador) {
+
         List<Cliente> clientes = controlador.listarClientes();
 
         if (clientes.isEmpty()) {
@@ -46,18 +56,26 @@ public class ClienteView {
         }
     }
 
-    public static void buscarClientes(Scanner scanner, Controlador controlador) {
+    public static void buscarClientes(
+            Scanner scanner, Controlador controlador) {
+
         System.out.print("Nombre o apellido: ");
         String texto = scanner.nextLine();
 
-        List<Cliente> clientes = controlador.buscarClientes(texto);
+        try {
+            List<Cliente> clientes = controlador.buscarClientes(texto);
 
-        if (clientes.isEmpty()) {
-            System.out.println("No se encontraron clientes.");
-        } else {
-            for (Cliente cliente : clientes) {
-                System.out.println(cliente);
+            if (clientes.isEmpty()) {
+                System.out.println("No se encontraron clientes.");
+            } else {
+                for (Cliente cliente : clientes) {
+                    System.out.println(cliente);
+                }
             }
+
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println(
+                    "No se pudo realizar la búsqueda: " + e.getMessage());
         }
     }
 }

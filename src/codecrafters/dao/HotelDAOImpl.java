@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.CallableStatement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,17 +53,12 @@ public class HotelDAOImpl implements HotelDAO {
 
         List<Hotel> hoteles = new ArrayList<>();
 
-        String sql = """
-            SELECT id_hotel, nombre, ciudad, estrellas
-            FROM hotel
-            WHERE ciudad LIKE ?
-            ORDER BY nombre
-            """;
+        String sql = "{CALL buscar_hoteles_por_ciudad(?)}";
 
         try (Connection conexion = ConexionBD.obtenerConexion();
-             PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+             CallableStatement sentencia = conexion.prepareCall(sql)) {
 
-            sentencia.setString(1, "%" + ciudad.trim() + "%");
+            sentencia.setString(1, ciudad.trim());
 
             try (ResultSet resultado = sentencia.executeQuery()) {
 

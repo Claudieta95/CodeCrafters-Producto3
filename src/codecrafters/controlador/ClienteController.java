@@ -1,26 +1,28 @@
 package codecrafters.controlador;
 
+import codecrafters.dao.ClienteDAO;
+import codecrafters.dao.DAOFactory;
 import codecrafters.modelo.Cliente;
-import codecrafters.modelo.Datos;
+
 import java.util.List;
 
 public class ClienteController {
 
-    private Datos datos;
+    private final ClienteDAO clienteDAO;
 
-    public ClienteController(Datos datos) {
-        this.datos = datos;
+    public ClienteController() {
+        this.clienteDAO = DAOFactory.crearClienteDAO();
     }
 
     public void agregarCliente(Cliente cliente) {
-        datos.agregarCliente(cliente);
+        clienteDAO.guardar(cliente);
     }
 
     public List<Cliente> listarClientes() {
-        return datos.listarClientes();
+        return clienteDAO.listar();
     }
 
     public List<Cliente> buscarClientes(String texto) {
-        return datos.buscarClientes(texto);
+        return clienteDAO.buscar(texto);
     }
 }

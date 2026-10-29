@@ -6,7 +6,7 @@ public class PruebaClienteDAO {
 
     public static void main(String[] args) {
 
-        ClienteDAO dao = new ClienteDAOImpl();
+        ClienteDAO dao = DAOFactory.crearClienteDAO();
         Cliente clientePrueba = new Cliente(
             0,
             "Prueba",

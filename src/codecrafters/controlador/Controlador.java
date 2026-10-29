@@ -11,44 +11,47 @@ import java.util.List;
 
 public class Controlador {
 
-    private Datos datos;
+    private final Datos datos;
 
-    private ClienteController clienteController;
-    private HotelController hotelController;
-    private HabitacionController habitacionController;
-    private ReservaController reservaController;
+    private final ClienteController clienteController;
+    private final HotelController hotelController;
+    private final HabitacionController habitacionController;
+    private final ReservaController reservaController;
 
     public Controlador() {
+
+        // Temporalmente, Datos sigue siendo utilizado
+        // por habitaciones y reservas del Producto 2.
         this.datos = new Datos();
 
-        this.clienteController = new ClienteController(datos);
-        this.hotelController = new HotelController(datos);
+        // Clientes y hoteles utilizan MySQL mediante DAO.
+        this.clienteController = new ClienteController();
+        this.hotelController = new HotelController();
+
+        // Pendiente de integrar los DAO de Daniella.
         this.habitacionController = new HabitacionController(datos);
         this.reservaController = new ReservaController(datos);
     }
 
-    // Obtener los datos de la aplicación
     public Datos getDatos() {
         return datos;
     }
 
-    // Gestión de clientes
+    // CLIENTES
+
     public void agregarCliente(Cliente cliente) {
         clienteController.agregarCliente(cliente);
     }
 
     public List<Cliente> listarClientes() {
         return clienteController.listarClientes();
-    }    
+    }
 
     public List<Cliente> buscarClientes(String texto) {
         return clienteController.buscarClientes(texto);
     }
 
-    // Gestión de hoteles
-    public void agregarHotel(Hotel hotel) {
-        hotelController.agregarHotel(hotel);
-    }
+    // HOTELES
 
     public List<Hotel> listarHoteles() {
         return hotelController.listarHoteles();
@@ -58,25 +61,33 @@ public class Controlador {
         return hotelController.buscarHotelesPorCiudad(ciudad);
     }
 
-    // Gestión de habitaciones
+    // HABITACIONES
+    // Pendiente de integración con MySQL.
+
     public List<Habitacion> listarHabitacionesPorHotel(Hotel hotel) {
         return habitacionController.listarHabitacionesPorHotel(hotel);
     }
 
     public List<Habitacion> filtrarHabitacionesPorCapacidad(
             Hotel hotel, int numeroPersonas) {
-        return habitacionController.filtrarHabitacionesPorCapacidad(hotel, numeroPersonas);
+
+        return habitacionController.filtrarHabitacionesPorCapacidad(
+                hotel, numeroPersonas);
     }
 
     public List<Habitacion> buscarHabitacionesDisponibles(
-            Hotel hotel, LocalDate fechaEntrada, LocalDate fechaSalida,
+            Hotel hotel,
+            LocalDate fechaEntrada,
+            LocalDate fechaSalida,
             int numeroPersonas) {
 
         return habitacionController.buscarHabitacionesDisponibles(
                 hotel, fechaEntrada, fechaSalida, numeroPersonas);
     }
 
-    // Gestión de reservas
+    // RESERVAS
+    // Pendiente de integración con MySQL.
+
     public void agregarReserva(Reserva reserva) {
         reservaController.agregarReserva(reserva);
     }

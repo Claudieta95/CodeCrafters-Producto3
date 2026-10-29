@@ -6,7 +6,7 @@ public class PruebaHotelDAO {
 
     public static void main(String[] args) {
 
-        HotelDAO dao = new HotelDAOImpl();
+        HotelDAO dao = DAOFactory.crearHotelDAO();
 
         System.out.println("=== TODOS LOS HOTELES ===");
         for (Hotel hotel : dao.listarHoteles()) {

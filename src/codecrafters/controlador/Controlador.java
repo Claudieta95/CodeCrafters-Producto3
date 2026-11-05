@@ -2,10 +2,9 @@ package codecrafters.controlador;
 
 import codecrafters.modelo.Cliente;
 import codecrafters.modelo.Datos;
-import codecrafters.modelo.Hotel;
 import codecrafters.modelo.Habitacion;
+import codecrafters.modelo.Hotel;
 import codecrafters.modelo.Reserva;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,8 +28,8 @@ public class Controlador {
         this.hotelController = new HotelController();
 
         // Pendiente de integrar los DAO de Daniella.
-        this.habitacionController = new HabitacionController(datos);
-        this.reservaController = new ReservaController(datos);
+        this.habitacionController = new HabitacionController();
+        this.reservaController = new ReservaController();
     }
 
     public Datos getDatos() {
@@ -62,8 +61,7 @@ public class Controlador {
     }
 
     // HABITACIONES
-    // Pendiente de integración con MySQL.
-
+    // Consultas realizadas por JDBC y HabitacionDAO.
     public List<Habitacion> listarHabitacionesPorHotel(Hotel hotel) {
         return habitacionController.listarHabitacionesPorHotel(hotel);
     }
@@ -81,8 +79,8 @@ public class Controlador {
             LocalDate fechaSalida,
             int numeroPersonas) {
 
-        return habitacionController.buscarHabitacionesDisponibles(
-                hotel, fechaEntrada, fechaSalida, numeroPersonas);
+        return reservaController.buscarHabitacionesDisponibles(
+        hotel, fechaEntrada, fechaSalida, numeroPersonas);
     }
 
     // RESERVAS

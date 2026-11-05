@@ -13,4 +13,12 @@ public class DAOFactory {
     public static HotelDAO crearHotelDAO() {
         return new HotelDAOImpl();
     }
+
+    public static HabitacionDAO crearHabitacionDAO() {
+        return new HabitacionDAOImpl();
+    }
+
+    public static ReservaDAO crearReservaDAO() {
+        return new ReservaDAOImpl();
+    }
 }

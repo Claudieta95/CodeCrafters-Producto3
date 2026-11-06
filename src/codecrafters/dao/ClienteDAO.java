@@ -1,3 +1,6 @@
+package codecrafters.dao;
+
+import codecrafters.modelo.Cliente;
 import java.util.List;
 
 public interface ClienteDAO {

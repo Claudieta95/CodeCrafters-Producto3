@@ -2,88 +2,107 @@ package codecrafters.controlador;
 
 import codecrafters.modelo.Cliente;
 import codecrafters.modelo.Datos;
-import codecrafters.modelo.Hotel;
 import codecrafters.modelo.Habitacion;
+import codecrafters.modelo.Hotel;
 import codecrafters.modelo.Reserva;
-
 import java.time.LocalDate;
 import java.util.List;
 
 public class Controlador {
 
-    private Datos datos;
+    private final Datos datos;
+
+    private final ClienteController clienteController;
+    private final HotelController hotelController;
+    private final HabitacionController habitacionController;
+    private final ReservaController reservaController;
 
     public Controlador() {
+
+        // Temporalmente, Datos sigue siendo utilizado
+        // por habitaciones y reservas del Producto 2.
         this.datos = new Datos();
+
+        // Clientes y hoteles utilizan MySQL mediante DAO.
+        this.clienteController = new ClienteController();
+        this.hotelController = new HotelController();
+
+        // Pendiente de integrar los DAO de Daniella.
+        this.habitacionController = new HabitacionController();
+        this.reservaController = new ReservaController();
     }
 
-    // Obtener los datos de la aplicación
     public Datos getDatos() {
         return datos;
     }
 
-    // Gestión de clientes
+    // CLIENTES
+
     public void agregarCliente(Cliente cliente) {
-        datos.agregarCliente(cliente);
+        clienteController.agregarCliente(cliente);
     }
 
     public List<Cliente> listarClientes() {
-        return datos.listarClientes();
+        return clienteController.listarClientes();
     }
 
     public List<Cliente> buscarClientes(String texto) {
-        return datos.buscarClientes(texto);
+        return clienteController.buscarClientes(texto);
     }
 
-    // Gestión de hoteles
-    public void agregarHotel(Hotel hotel) {
-        datos.agregarHotel(hotel);
-    }
+    // HOTELES
 
     public List<Hotel> listarHoteles() {
-        return datos.listarHoteles();
+        return hotelController.listarHoteles();
     }
 
     public List<Hotel> buscarHotelesPorCiudad(String ciudad) {
-        return datos.buscarHotelesPorCiudad(ciudad);
+        return hotelController.buscarHotelesPorCiudad(ciudad);
     }
 
-    // Gestión de habitaciones
+    // HABITACIONES
+    // Consultas realizadas por JDBC y HabitacionDAO.
     public List<Habitacion> listarHabitacionesPorHotel(Hotel hotel) {
-        return datos.listarHabitacionesPorHotel(hotel);
+        return habitacionController.listarHabitacionesPorHotel(hotel);
     }
 
     public List<Habitacion> filtrarHabitacionesPorCapacidad(
             Hotel hotel, int numeroPersonas) {
-        return datos.filtrarHabitacionesPorCapacidad(hotel, numeroPersonas);
+
+        return habitacionController.filtrarHabitacionesPorCapacidad(
+                hotel, numeroPersonas);
     }
 
     public List<Habitacion> buscarHabitacionesDisponibles(
-            Hotel hotel, LocalDate fechaEntrada, LocalDate fechaSalida,
+            Hotel hotel,
+            LocalDate fechaEntrada,
+            LocalDate fechaSalida,
             int numeroPersonas) {
 
-        return datos.buscarHabitacionesDisponibles(
-                hotel, fechaEntrada, fechaSalida, numeroPersonas);
+        return reservaController.buscarHabitacionesDisponibles(
+        hotel, fechaEntrada, fechaSalida, numeroPersonas);
     }
 
-    // Gestión de reservas
+    // RESERVAS
+    // Pendiente de integración con MySQL.
+
     public void agregarReserva(Reserva reserva) {
-        datos.agregarReserva(reserva);
+        reservaController.agregarReserva(reserva);
     }
 
     public List<Reserva> listarReservas() {
-        return datos.listarReservas();
+        return reservaController.listarReservas();
     }
 
     public List<Reserva> buscarReservasPorCliente(Cliente cliente) {
-        return datos.buscarReservasPorCliente(cliente);
+        return reservaController.buscarReservasPorCliente(cliente);
     }
 
     public List<Reserva> buscarReservasPorHotel(Hotel hotel) {
-        return datos.buscarReservasPorHotel(hotel);
+        return reservaController.buscarReservasPorHotel(hotel);
     }
 
     public boolean cancelarReserva(int idReserva) {
-        return datos.cancelarReserva(idReserva);
+        return reservaController.cancelarReserva(idReserva);
     }
 }

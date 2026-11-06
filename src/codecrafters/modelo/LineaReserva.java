@@ -1,4 +1,5 @@
 package codecrafters.modelo;
+
 public class LineaReserva {
     private double precioNoche;
     private Reserva reserva;
@@ -12,10 +13,6 @@ public class LineaReserva {
         
         if (reserva != null && reserva.getLineasReserva() != null && !reserva.getLineasReserva().contains(this)) {
             reserva.getLineasReserva().add(this);
-        }
-
-        if (habitacion != null) {
-            habitacion.agregarLineaReserva(this);
         }
 
     }

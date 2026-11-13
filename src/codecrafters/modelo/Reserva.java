@@ -1,4 +1,5 @@
 package codecrafters.modelo;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -34,10 +35,6 @@ public class Reserva {
 
         if (!validarFechas()) {
             throw new IllegalArgumentException("Las fechas de la reserva no son válidas.");
-        }
-
-        if (!habitacion.estaDisponible(fechaEntrada, fechaSalida)) {
-            throw new IllegalStateException("La habitación no está disponible para esas fechas.");
         }
 
         for (LineaReserva linea : lineasReserva) {

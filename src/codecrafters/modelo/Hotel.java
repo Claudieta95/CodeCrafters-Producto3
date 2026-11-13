@@ -16,11 +16,6 @@ public class Hotel {
         this.estrellas = estrellas;
         this.habitaciones = habitaciones;
 
-        if (habitaciones != null) {
-            for (Habitacion habitacion : habitaciones) {
-                habitacion.setHotel(this);
-            }
-        }
     }
 
     // Getters y Setters
@@ -62,12 +57,6 @@ public class Hotel {
 
     public void setHabitaciones(List<Habitacion> habitaciones) {
         this.habitaciones = habitaciones;
-
-        if (habitaciones != null) {
-            for (Habitacion habitacion : habitaciones) {
-                habitacion.setHotel(this);
-            }
-        }
     }
 
 

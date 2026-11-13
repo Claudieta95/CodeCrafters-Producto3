@@ -9,6 +9,7 @@ public class ReservasTest {
 
     private Reserva reserva;
     private Habitacion habitacion;
+    private Datos datos;
 
     @BeforeEach
     public void setUp() {
@@ -17,6 +18,7 @@ public class ReservasTest {
 
         reserva = new Reserva(1, fechaEntrada, fechaSalida, 2, "Activa");
         habitacion = new Habitacion(1, 101, "Doble", 2, 100.0);
+        datos = new Datos();
     }
 
     @Test
@@ -46,11 +48,13 @@ public class ReservasTest {
     @Test
     public void testHabitacionNoDisponiblePorSolapamiento() {
         reserva.agregarLineaReserva(habitacion, habitacion.getPrecioNoche());
+
+        datos.agregarReserva(reserva);
         
         LocalDate nuevaEntrada = LocalDate.of(2026, 10, 22);
         LocalDate nuevaSalida = LocalDate.of(2026, 10, 26);
         
-        assertFalse(habitacion.estaDisponible(nuevaEntrada, nuevaSalida), 
+        assertFalse(datos.estaHabitacionDisponible(habitacion, nuevaEntrada, nuevaSalida),
             "La habitación no debería estar disponible porque las fechas se solapan.");
     }
 }
